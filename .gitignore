@@ -1,0 +1,47 @@
+# sbt specific
+.cache
+.history
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+project/target/
+project/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+.cache-main
+.cache-tests
+
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Metals & Bloop
+.metals/
+.bloop/
+.bsp/
+metals.sbt
+
+# VS Code
+.vscode/
+
+# Mac
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Docker
+docker-compose.override.yml
+
+# ASDF
+.tool-versions

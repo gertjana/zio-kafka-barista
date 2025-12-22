@@ -1,0 +1,4 @@
+[debug] [coffeeBar] Classpath dependencies List(common)
+[debug] [coffeeBar] Dependencies from configurations List()
+[debug] Bloop wrote the configuration of project 'coffeeBar' to '/Users/gertjan/Projects/zio-kafka-barista/.bloop/coffeeBar.json'
+[success] Generated .bloop/coffeeBar.json

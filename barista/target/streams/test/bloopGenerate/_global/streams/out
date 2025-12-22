@@ -1,0 +1,4 @@
+[debug] [barista-test] Classpath dependencies List(common)
+[debug] [barista-test] Dependencies from configurations List(barista)
+[debug] Bloop wrote the configuration of project 'barista-test' to '/Users/gertjan/Projects/zio-kafka-barista/.bloop/barista-test.json'
+[success] Generated .bloop/barista-test.json

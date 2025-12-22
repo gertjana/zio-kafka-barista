@@ -1,0 +1,99 @@
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E161] Naming Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:11:0 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m11 |[0m[33mobject[0m [35mBaristaApp[0m [33mextends[0m [35mZIOAppDefault[0m:[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0mBaristaApp is already defined as [33mobject[0m [35mBaristaApp[0m in /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/com/example/barista/BaristaApp.scala[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E008] Not Found Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/com/example/barista/BaristaApp.scala:3:25 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m3 |[0m[33mimport[0m dev.gertjanassies.common.CoffeeOrder[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m  |[0m       ^^^^^^^^^^^^^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0m       value common is not a member of dev.gertjanassies[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E006] Not Found Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/com/example/barista/BaristaApp.scala:121:6 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m121 |[0m      KafkaConfig.consumerLayer,[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m    |[0m      ^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      Not found: KafkaConfig[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E006] Not Found Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/com/example/barista/BaristaApp.scala:122:6 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m122 |[0m      KafkaConfig.producerLayer[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m    |[0m      ^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      Not found: KafkaConfig[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E008] Not Found Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:3:25 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m3 |[0m[33mimport[0m dev.gertjanassies.common.CoffeeOrder[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m  |[0m       ^^^^^^^^^^^^^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0mvalue common is not a member of dev.gertjanassies, but could be made available as an extension method.[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0mThe following import might make progress towards fixing the problem:[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0m  import izumi.reflect.dottyreflection.ReflectionUtil.[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0m  reflectiveUncheckedNonOverloadedSelectable[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E049] Reference Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:28:45 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m28 |[0m          _ <- Console.printLine([31ms"[Barista-[0m$baristaId[31m] Taking order: [0m${record.value}[31m"[0m)[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m                                             ^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                       Reference to baristaId is ambiguous.[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                       It is both defined in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                       and inherited subsequently in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E049] Reference Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:59:45 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m59 |[0m          _ <- Console.printLine([31ms"[Barista-[0m$baristaId[31m] Preparing taken order: [0m${record.value}[31m"[0m)[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m                                             ^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                       Reference to baristaId is ambiguous.[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                       It is both defined in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                       and inherited subsequently in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E049] Reference Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:87:45 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m87 |[0m          _ <- Console.printLine([31ms"[Barista-[0m$baristaId[31m] Announcing prepared order: [0m${record.value}[31m"[0m)[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m                                             ^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                       Reference to baristaId is ambiguous.[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                       It is both defined in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                       and inherited subsequently in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E049] Reference Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:114:6 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m114 |[0m      processPrepared,[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m    |[0m      ^^^^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      Reference to processPrepared is ambiguous.[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      It is both defined in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      and inherited subsequently in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E049] Reference Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:115:6 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m115 |[0m      processTaken,[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m    |[0m      ^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      Reference to processTaken is ambiguous.[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      It is both defined in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      and inherited subsequently in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E049] Reference Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:116:6 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m116 |[0m      processOrder[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m    |[0m      ^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      Reference to processOrder is ambiguous.[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      It is both defined in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      and inherited subsequently in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E049] Reference Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:120:4 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m120 |[0m    processOrders.provide([0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m    |[0m    ^^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m    Reference to processOrders is ambiguous.[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m    It is both defined in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m    and inherited subsequently in [33mobject[0m [35mBaristaApp$2[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E006] Not Found Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:121:6 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m121 |[0m      KafkaConfig.consumerLayer,[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m    |[0m      ^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      Not found: KafkaConfig[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E006] Not Found Error: /Users/gertjan/Projects/zio-kafka-barista/barista/src/main/scala/dev/gertjanassies/barista/BaristaApp.scala:122:6 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m122 |[0m      KafkaConfig.producerLayer[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m    |[0m      ^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m      Not found: KafkaConfig[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m    |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m14 errors found[0m

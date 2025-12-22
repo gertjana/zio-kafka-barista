@@ -1,0 +1,21 @@
+direction: right
+classes: {
+  topic: {
+    shape: cylinder
+    width: 50
+    style: {
+      fill: lightblue
+      shadow: true
+    }
+  }
+}
+
+order.class: topic
+taken.class: topic
+prepared.class: topic
+ready.class: topic
+customer -> order
+order -> taken: barista takes order, writes name wrong
+taken -> prepared: barista prepares order
+prepared -> ready: barista announces prepared order
+customer <- ready: customer picks up order
