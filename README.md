@@ -10,7 +10,7 @@ This system simulates a coffee shop workflow with multiple stages:
 2. **One of the Baristas takes order and writes name** → `taken` topic 
 3. **One of the Baristas prepares coffee** → `prepared` topic 
 4. **One of the Baristas announces order ready** → `ready` topic
-5. Meanwhile **Customer checks periodically it order is ready and then picks up order** via HTTP API
+5. Meanwhile **Customer checks periodically if the order is ready and then picks up order** via HTTP API
 
 
 ```
