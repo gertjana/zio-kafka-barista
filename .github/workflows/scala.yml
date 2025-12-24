@@ -12,7 +12,7 @@ permissions:
   actions: read
   security-events: write
   id-token: write
-  
+
 jobs:
   build:
 
@@ -30,4 +30,5 @@ jobs:
     - name: Run tests
       run: sbt test
     - name: Upload dependency graph
-      uses: scalacenter/sbt-dependency-submission@ab086b50c947c9774b70f39fc7f6e20ca2706c91
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: scalacenter/sbt-dependency-submission@v3
