@@ -7,10 +7,10 @@ This is an example project for playing around with ZIO-Kafka.
 This system simulates a coffee shop workflow with multiple stages:
 
 1. **Customer places order** → `order` topic
-2.  **Barista takes order and writes name** → `taken` topic 
-3.  **Barista prepares coffee** → `prepared` topic 
-4.  **Barista announces order ready** → `ready` topic
-5. Meanwhile **Customer checks periodically it order is ready and then picks up order** via HTTP API
+2. **One of the Baristas takes order and writes name** → `taken` topic 
+3. **One of the Baristas prepares coffee** → `prepared` topic 
+4. **One of the Baristas announces order ready** → `ready` topic
+5. Meanwhile **Customer checks periodically if the order is ready and then picks up order** via HTTP API
 
 
 ```
