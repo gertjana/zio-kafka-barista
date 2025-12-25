@@ -54,7 +54,7 @@ object CoffeeBarApp extends ZIOAppDefault:
 
   override def run =
     Server
-      .serve(orderRoute.toHttpApp)
+      .serve(orderRoute)
       .provide(
         Runtime.removeDefaultLoggers >>> SLF4J.slf4j,
         Server.default,

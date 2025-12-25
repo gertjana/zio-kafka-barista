@@ -23,8 +23,7 @@ object BaristaApp extends ZIOAppDefault:
 
   // Process orders from 'order' topic - take and misspell the name
   val processOrder: ZIO[Consumer & Producer, Throwable, Unit] =
-    Consumer
-      .plainStream(Subscription.topics("order"), Serde.string, Serde.string)
+    ZIO.serviceWithZIO[Consumer](_.plainStream(Subscription.topics("order"), Serde.string, Serde.string)
       .mapZIO { record =>
         for
           _ <- Console.printLine(s"[Barista-$baristaId] Taking order: ${record.value}")
@@ -50,12 +49,11 @@ object BaristaApp extends ZIOAppDefault:
           _ <- producer.produce(takenRecord, Serde.string, Serde.string)
         yield ()
       }
-      .runDrain
+      .runDrain)
 
   // Process taken orders - prepare the coffee
   val processTaken: ZIO[Consumer & Producer, Throwable, Unit] =
-    Consumer
-      .plainStream(Subscription.topics("taken"), Serde.string, Serde.string)
+    ZIO.serviceWithZIO[Consumer](_.plainStream(Subscription.topics("taken"), Serde.string, Serde.string)
       .mapZIO { record =>
         for
           _ <- Console.printLine(s"[Barista-$baristaId] Preparing taken order: ${record.value}")
@@ -78,12 +76,11 @@ object BaristaApp extends ZIOAppDefault:
           _ <- producer.produce(preparedRecord, Serde.string, Serde.string)
         yield ()
       }
-      .runDrain
+      .runDrain)
 
   // Process prepared orders - announce they're ready
   val processPrepared: ZIO[Consumer & Producer, Throwable, Unit] =
-    Consumer
-      .plainStream(Subscription.topics("prepared"), Serde.string, Serde.string)
+    ZIO.serviceWithZIO[Consumer](_.plainStream(Subscription.topics("prepared"), Serde.string, Serde.string)
       .mapZIO { record =>
         for
           _ <- Console.printLine(s"[Barista-$baristaId] Announcing prepared order: ${record.value}")
@@ -108,7 +105,7 @@ object BaristaApp extends ZIOAppDefault:
           _ <- producer.produce(readyRecord, Serde.string, Serde.string)
         yield ()
       }
-      .runDrain
+      .runDrain)
 
   // Process all topics in priority order: prepared > taken > order
   val processOrders: ZIO[Consumer & Producer, Throwable, Unit] =
