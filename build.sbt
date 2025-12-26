@@ -13,8 +13,12 @@ lazy val commonSettings = Seq(
     "dev.zio" %% "zio-logging-slf4j2" % "2.1.16",
     "org.apache.logging.log4j" % "log4j-core" % "2.22.0",
     "org.apache.logging.log4j" % "log4j-api" % "2.22.0",
-    "org.apache.logging.log4j" % "log4j-slf4j2-impl" % "2.22.0"
-  )
+    "org.apache.logging.log4j" % "log4j-slf4j2-impl" % "2.22.0",
+    "dev.zio" %% "zio-test" % "2.1.23" % Test,
+    "dev.zio" %% "zio-test-sbt" % "2.1.23" % Test,
+    "dev.zio" %% "zio-test-magnolia" % "2.1.23" % Test
+  ),
+  testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 )
 
 lazy val common = (project in file("common"))
@@ -25,7 +29,7 @@ lazy val common = (project in file("common"))
 
 lazy val coffeeBar = (project in file("coffeebar"))
   .enablePlugins(JavaAppPackaging)
-  .dependsOn(common)
+  .dependsOn(common % "compile->compile;test->test")
   .settings(
     name := "coffeebar",
     commonSettings,
@@ -36,7 +40,7 @@ lazy val coffeeBar = (project in file("coffeebar"))
 
 lazy val barista = (project in file("barista"))
   .enablePlugins(JavaAppPackaging)
-  .dependsOn(common)
+  .dependsOn(common % "compile->compile;test->test")
   .settings(
     name := "barista",
     commonSettings
