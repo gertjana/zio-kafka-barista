@@ -30,10 +30,7 @@ object BaristaStagesSpec extends ZIOSpecDefault:
         
         // Run the processOrder stage
         processFiber <- BaristaApp.processOrder.fork
-        
-        // Give it time to process
-        _ <- ZIO.sleep(5.seconds)
-        
+                
         // Create consumer for taken topic
         consumer <- KafkaTestUtils.makeConsumer(
           clientId = "test-taken-consumer",
@@ -75,10 +72,7 @@ object BaristaStagesSpec extends ZIOSpecDefault:
         
         // Run the processTaken stage
         processFiber <- BaristaApp.processTaken.fork
-        
-        // Give it time to process (3 seconds delay + processing time)
-        _ <- ZIO.sleep(5.seconds)
-        
+                
         // Create consumer for prepared topic
         consumer <- KafkaTestUtils.makeConsumer(
           clientId = "test-prepared-consumer",
@@ -119,10 +113,7 @@ object BaristaStagesSpec extends ZIOSpecDefault:
         
         // Run the processPrepared stage
         processFiber <- BaristaApp.processPrepared.fork
-        
-        // Give it time to process (3 seconds delay + processing time)
-        _ <- ZIO.sleep(5.seconds)
-        
+                
         // Create consumer for ready topic
         consumer <- KafkaTestUtils.makeConsumer(
           clientId = "test-ready-consumer",
@@ -165,7 +156,7 @@ object BaristaStagesSpec extends ZIOSpecDefault:
         processFiber <- BaristaApp.processOrders.fork
         
         // Give it time to go through all stages (3s * 3 stages + overhead)
-        _ <- ZIO.sleep(12.seconds)
+        // _ <- ZIO.sleep(12.seconds)
         
         // Create consumer for ready topic (final output)
         consumer <- KafkaTestUtils.makeConsumer(

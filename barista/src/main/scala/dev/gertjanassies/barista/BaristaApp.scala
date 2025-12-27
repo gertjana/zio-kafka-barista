@@ -8,6 +8,7 @@ import zio.kafka.serde.Serde
 import zio.json.*
 import zio.logging.backend.SLF4J
 import org.apache.kafka.clients.producer.ProducerRecord
+import dev.gertjanassies.common.Defaults
 
 object BaristaApp extends ZIOAppDefault:
   private val baristaId = sys.env.getOrElse("BARISTA_ID", "local")
@@ -36,7 +37,7 @@ object BaristaApp extends ZIOAppDefault:
           takenOrder = order.copy(name = misspelledName)
           
           _ <- Console.printLine(s"[Barista-$baristaId] Taking order and writing name...")
-          _ <- ZIO.sleep(3.seconds)
+          _ <- ZIO.sleep(Defaults.SIMULATE_WORK_DURATION)
           _ <- Console.printLine(s"[Barista-$baristaId] Took order, wrote name as: $misspelledName")
           
           // Publish to 'taken' topic
@@ -63,7 +64,7 @@ object BaristaApp extends ZIOAppDefault:
           
           // Simulate coffee preparation
           _ <- Console.printLine(s"[Barista-$baristaId] Preparing ${order.coffeeType} for ${order.name}...")
-          _ <- ZIO.sleep(3.seconds)
+          _ <- ZIO.sleep(Defaults.SIMULATE_WORK_DURATION)
           _ <- Console.printLine(s"[Barista-$baristaId] ${order.coffeeType} ready for ${order.name}!")
           
           // Publish to 'prepared' topic
@@ -90,7 +91,7 @@ object BaristaApp extends ZIOAppDefault:
           
           // Simulate announcing work
           _ <- Console.printLine(s"[Barista-$baristaId] Calling out name...")
-          _ <- ZIO.sleep(3.seconds)
+          _ <- ZIO.sleep(Defaults.SIMULATE_WORK_DURATION)
           
           // Announce the order is ready
           _ <- Console.printLine(s"🔔 ${order.name.toUpperCase()}! YOUR ${order.coffeeType.toUpperCase()} IS READY! 🔔")
