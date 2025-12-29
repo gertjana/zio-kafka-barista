@@ -12,36 +12,7 @@ This system simulates a coffee shop workflow with multiple stages:
 4. **One of the Baristas announces order ready** → `ready` topic
 5. Meanwhile **Customer checks periodically if the order is ready and then picks up order** API /check /pickup
 
-
-```
-┌─────────────┐
-│  Customer   │ POST /order
-└──────┬──────┘ returns orderId 
-       ▼                          
-   [order topic]
-       ▼                          
-┌──────────────┐
-│ Barista[x]   │ misspells name   
-└──────┬───────┘
-       ▼                          
-   [taken topic]
-       ▼                          
-┌──────────────┐
-│ Barista[x]   │ prepares coffee  
-└──────┬───────┘
-       ▼                          
-  [prepared topic]
-       ▼                          
-┌──────────────┐
-│ Barista[x]   | announces coffee 
-└──────┬───────┘
-       ▼                          
-   [ready topic]
-       ▼                          
-┌─────────────┐                   
-│  Customer   │ GET /pickup/:orderId
-└─────────────┘
-```
+![Architecture](./flow.svg)
 
 ## Services
 

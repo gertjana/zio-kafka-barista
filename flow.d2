@@ -2,20 +2,111 @@ direction: right
 classes: {
   topic: {
     shape: cylinder
-    width: 50
+    # width: 250
     style: {
       fill: lightblue
       shadow: true
     }
   }
+  # api: {
+  #   style {
+  #     text-align: left
+  #   }
+  # }
+  box: {
+    width: 1500
+    label.near: top-left
+  }
 }
 
-order.class: topic
-taken.class: topic
-prepared.class: topic
-ready.class: topic
-customer -> order
-order -> taken: barista takes order, writes name wrong
-taken -> prepared: barista prepares order
-prepared -> ready: barista announces prepared order
-customer <- ready: customer picks up order
+Coffee Bar {
+  label.near: top-left
+  Customer: {
+    icon: https://icons.terrastruct.com/essentials%2F359-users.svg
+  }
+
+  Customer -> API.order: place order
+  Customer <->  API.check: check order status
+  Customer <- API.pickup: pick up order
+
+
+  API.class: box
+  API {
+    grid-rows: 1
+    order.box:|md
+      POST /order  
+      ```
+      {
+        "name": "Alice",
+        "coffeeType": "Latte"
+      }
+      ```
+      202 Accepted
+    |
+    check.box: |md
+      GET /check/:orderId
+
+      not ready -> 200 OK
+
+      ready -> 303 See Other
+    |
+
+    pickup.box: |md
+      GET /pickup/:orderId
+      ```
+      {
+        "name": "Alize",
+        "coffee": "Latte"
+      }
+      ```
+      200 OK
+    |
+    Technology {
+      icon: https://icons.terrastruct.com/dev%2Fscala.svg
+      label: ""
+    }
+    Technology.box:|md
+      * ZIO Http
+      * ZIO Kafka
+      * ZIO Json
+      * ZIO Logging
+    |
+  }
+
+  Kafka.class: box
+  Kafka{
+    label: Kafka Topics
+    grid-rows: 1
+    order.class: topic
+    taken.class: topic
+    prepared.class: topic
+    ready.class: topic
+  }
+
+  Barista.class: box
+  Barista {
+    label: Barista Pool
+    grid-rows: 1
+    takesOrder: Barista takes order
+    preparesOrder: Barista prepares order
+    announcesReady: Barista announces prepared order
+    Technology {
+      icon: https://icons.terrastruct.com/dev%2Fscala.svg
+      label: ""
+    }
+    Technology.box:|md
+      * ZIO Kafka
+      * ZIO Json
+      * ZIO Logging
+    |
+  }
+
+  Kafka.order -> Barista.takesOrder -> Kafka.taken
+  Kafka.taken -> Barista.preparesOrder -> Kafka.prepared
+  Kafka.prepared -> Barista.announcesReady -> Kafka.ready
+
+  API.order -> Kafka.order
+  API.check <- Kafka.ready
+  API.pickup <- Kafka.ready
+
+}
