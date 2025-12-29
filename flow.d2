@@ -2,17 +2,11 @@ direction: right
 classes: {
   topic: {
     shape: cylinder
-    # width: 250
+    width: 200
     style: {
       fill: lightblue
-      shadow: true
     }
   }
-  # api: {
-  #   style {
-  #     text-align: left
-  #   }
-  # }
   box: {
     width: 1500
     label.near: top-left
@@ -41,25 +35,38 @@ Coffee Bar {
         "coffeeType": "Latte"
       }
       ```
+      response:
+      ```
       202 Accepted
+      Location: /check/:orderId
+      ```
     |
     check.box: |md
       GET /check/:orderId
 
-      not ready -> 200 OK
-
-      ready -> 303 See Other
+      response (not ready):
+      ```
+      200 OK
+      ```
+      response (ready): 
+      ```
+      303 See Other
+      Location: /pickup/:orderId
+      ```
     |
 
     pickup.box: |md
       GET /pickup/:orderId
-      ```
+      ```json
       {
         "name": "Alize",
         "coffee": "Latte"
       }
       ```
+      response:
+      ```
       200 OK
+      ```
     |
     Technology {
       icon: https://icons.terrastruct.com/dev%2Fscala.svg
@@ -69,7 +76,6 @@ Coffee Bar {
       * ZIO Http
       * ZIO Kafka
       * ZIO Json
-      * ZIO Logging
     |
   }
 
@@ -97,7 +103,6 @@ Coffee Bar {
     Technology.box:|md
       * ZIO Kafka
       * ZIO Json
-      * ZIO Logging
     |
   }
 

@@ -18,7 +18,6 @@ object OrderEndpointSpec extends ZIOSpecDefault:
   def spec = suite("Order Endpoint with Embedded Kafka")(
     test("POST /order should publish message to order topic") {
       for
-        // Create the order request
         request <- ZIO.succeed(
           Request.post(
             URL.decode("/order").toOption.get,
@@ -26,43 +25,39 @@ object OrderEndpointSpec extends ZIOSpecDefault:
           ).addHeader(Header.ContentType(MediaType.application.json))
         )
         
-        // Send the request to the endpoint
         response <- CoffeeBarApp.orderRoute.runZIO(request)
         
-        // Verify response is 202 Accepted
+        locationHeader = response.header(Header.Location)
+
         _ <- ZIO.succeed(assertTrue(response.status == Status.Accepted))
         
-        // Create a consumer to read from the order topic
         consumer <- KafkaTestUtils.makeConsumer(
           clientId = "test-client",
           groupId = Some("test-group")
         )
         
-        // Consume the message from the order topic
         records <- consumer
           .plainStream(Subscription.topics("order"), Serde.string, Serde.string)
           .take(1)
           .runCollect
         
-        // Parse the consumed message
         record = records.head.record
         order <- ZIO.fromEither(record.value.fromJson[CoffeeOrder])
         
       yield assertTrue(
         order.name == "TestUser",
         order.coffeeType == "TestLatte",
-        order.orderId.nonEmpty
+        order.orderId.nonEmpty,
+        locationHeader == Some(Header.Location(URL.decode(s"/check/${order.orderId}").toOption.get))
       )
     },
     
     test("GET /check/:orderId should return 200 OK when order is not ready") {
       for
-        // Send check request for a non-existent order
         request <- ZIO.succeed(
           Request.get(URL.decode("/check/non-existent-order").toOption.get)
         )
         
-        // Send the request to the endpoint
         response <- CoffeeBarApp.orderRoute.runZIO(request)
         
       yield assertTrue(response.status == Status.Ok)
@@ -73,7 +68,6 @@ object OrderEndpointSpec extends ZIOSpecDefault:
       val readyOrder = CoffeeOrder("Alice", "Espresso", testOrderId)
       
       for
-        // Publish a ready order to the ready topic
         producer <- ZIO.service[Producer]
         _ <- producer.produce(
           new org.apache.kafka.clients.producer.ProducerRecord("ready", readyOrder.orderId, readyOrder.toJson),
@@ -81,18 +75,14 @@ object OrderEndpointSpec extends ZIOSpecDefault:
           Serde.string
         )
         
-        // Give PreparedConsumer time to consume the ready message
         _ <- ZIO.sleep(2.seconds)
         
-        // Send check request
         request <- ZIO.succeed(
           Request.get(URL.decode(s"/check/$testOrderId").toOption.get)
         )
         
-        // Send the request to the endpoint
         response <- CoffeeBarApp.orderRoute.runZIO(request)
         
-        // Get the Location header
         locationHeader = response.header(Header.Location)
         
       yield assertTrue(
@@ -104,12 +94,10 @@ object OrderEndpointSpec extends ZIOSpecDefault:
     
     test("GET /pickup/:orderId should return 404 when order does not exist") {
       for
-        // Send pickup request for non-existent order
         request <- ZIO.succeed(
           Request.get(URL.decode("/pickup/non-existent-order").toOption.get)
         )
         
-        // Send the request to the endpoint
         response <- CoffeeBarApp.orderRoute.runZIO(request)
         
       yield assertTrue(response.status == Status.NotFound)
@@ -120,7 +108,6 @@ object OrderEndpointSpec extends ZIOSpecDefault:
       val readyOrder = CoffeeOrder("Bob", "Mocha", testOrderId)
       
       for
-        // Publish a ready order to the ready topic
         producer <- ZIO.service[Producer]
         _ <- producer.produce(
           new org.apache.kafka.clients.producer.ProducerRecord("ready", readyOrder.orderId, readyOrder.toJson),
@@ -128,22 +115,17 @@ object OrderEndpointSpec extends ZIOSpecDefault:
           Serde.string
         )
         
-        // Give PreparedConsumer time to consume the ready message
         _ <- ZIO.sleep(2.seconds)
         
-        // Send pickup request
         request <- ZIO.succeed(
           Request.get(URL.decode(s"/pickup/$testOrderId").toOption.get)
         )
         
-        // Send the request to the endpoint
         response <- CoffeeBarApp.orderRoute.runZIO(request)
         
-        // Parse response body
         bodyString <- response.body.asString
         retrievedOrder <- ZIO.fromEither(bodyString.fromJson[CoffeeOrder])
         
-        // Try to pickup the same order again (should be 404 now)
         secondRequest <- ZIO.succeed(
           Request.get(URL.decode(s"/pickup/$testOrderId").toOption.get)
         )
@@ -160,7 +142,6 @@ object OrderEndpointSpec extends ZIOSpecDefault:
     
     test("Full workflow: order -> check (not ready) -> ready -> check (redirect) -> pickup") {
       for
-        // Step 1: Place an order
         orderRequest <- ZIO.succeed(
           Request.post(
             URL.decode("/order").toOption.get,
@@ -172,13 +153,11 @@ object OrderEndpointSpec extends ZIOSpecDefault:
         orderResult <- ZIO.fromEither(orderBody.fromJson[Map[String, String]])
         orderId = orderResult("orderId")
         
-        // Step 2: Check order status (should not be ready yet)
         checkRequest1 <- ZIO.succeed(
           Request.get(URL.decode(s"/check/$orderId").toOption.get)
         )
         checkResponse1 <- CoffeeBarApp.orderRoute.runZIO(checkRequest1)
         
-        // Step 3: Simulate barista completing the order
         completedOrder = CoffeeOrder("Carol", "Latte", orderId)
         producer <- ZIO.service[Producer]
         _ <- producer.produce(
@@ -187,16 +166,13 @@ object OrderEndpointSpec extends ZIOSpecDefault:
           Serde.string
         )
         
-        // Give PreparedConsumer time to consume the ready message
         _ <- ZIO.sleep(2.seconds)
         
-        // Step 4: Check order status (should be ready now with redirect)
         checkRequest2 <- ZIO.succeed(
           Request.get(URL.decode(s"/check/$orderId").toOption.get)
         )
         checkResponse2 <- CoffeeBarApp.orderRoute.runZIO(checkRequest2)
         
-        // Step 5: Pickup the order
         pickupRequest <- ZIO.succeed(
           Request.get(URL.decode(s"/check/$orderId").toOption.get)
         )
