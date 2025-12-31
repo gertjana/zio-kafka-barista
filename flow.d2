@@ -57,13 +57,14 @@ Coffee Bar {
 
     pickup.box: |md
       GET /pickup/:orderId
+
+      response:
       ```json
       {
         "name": "Alize",
         "coffee": "Latte"
       }
       ```
-      response:
       ```
       200 OK
       ```
