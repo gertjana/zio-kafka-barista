@@ -5,7 +5,6 @@ import zio.*
 import zio.http.*
 import zio.json.*
 import zio.logging.backend.SLF4J
-import java.util.UUID
 
 object CoffeeBarApp extends ZIOAppDefault:
   
@@ -15,7 +14,7 @@ object CoffeeBarApp extends ZIOAppDefault:
         body <- req.body.asString
         orderRequest <- ZIO.fromEither(body.fromJson[OrderRequest])
           .mapError(err => Response.badRequest(err))
-        orderId = UUID.randomUUID().toString
+          orderId <- Random.nextUUID.map(_.toString)
         order = CoffeeOrder(orderRequest.name, orderRequest.coffeeType, orderId)
         _ <- OrderProducer.publishOrder(order)
         responseBody = s"{\"orderId\":\"$orderId\",\"status\":\"Order placed\"}"

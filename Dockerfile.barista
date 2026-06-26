@@ -1,4 +1,4 @@
-FROM sbtscala/scala-sbt:eclipse-temurin-jammy-21.0.1_12_1.9.8_3.3.1 AS builder
+FROM sbtscala/scala-sbt:eclipse-temurin-21_2.x AS builder
 
 WORKDIR /app
 
@@ -9,13 +9,14 @@ COPY common common
 COPY barista barista
 
 # Build the application
-RUN sbt barista/stage
+RUN sbt barista/stage && \
+    mv $(find target/out -type d -name stage -path '*/barista/universal/stage') /app/stage
 
 FROM eclipse-temurin:21-jre-jammy
 
 WORKDIR /app
 
 # Copy the staged application
-COPY --from=builder /app/barista/target/universal/stage /app
+COPY --from=builder /app/stage /app
 
 CMD ["/app/bin/barista"]

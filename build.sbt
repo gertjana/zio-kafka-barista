@@ -1,7 +1,7 @@
-ThisBuild / version := "0.1.0-SNAPSHOT"
-ThisBuild / scalaVersion := "3.3.7"
-ThisBuild / organization := "dev.gertjanassies"
-ThisBuild / dependencyOverrides += "org.lz4" % "lz4-java" % "1.8.1"
+version := "0.1.0-SNAPSHOT"
+scalaVersion := "3.3.7"
+organization := "dev.gertjanassies"
+dependencyOverrides += "org.lz4" % "lz4-java" % "1.8.1"
 
 lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
@@ -47,8 +47,8 @@ lazy val barista = (project in file("barista"))
     commonSettings
   )
 
-lazy val root = (project in file("."))
-  .aggregate(coffeeBar, barista, common)
+lazy val root = rootProject
+  .autoAggregate
   .settings(
     name := "zio-kafka-coffeebar-example"
   )
