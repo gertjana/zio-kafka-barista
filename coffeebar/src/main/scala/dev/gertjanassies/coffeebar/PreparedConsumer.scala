@@ -18,41 +18,33 @@ object PreparedConsumer:
     ZIO.serviceWithZIO[PreparedConsumer](_.isReady(orderId))
 
   def live: ZLayer[Consumer, Nothing, PreparedConsumer] =
-    ZLayer.fromFunction { (consumer: Consumer) =>
-      new PreparedConsumer:
-        private val orders = scala.collection.mutable.Map[String, CoffeeOrder]()
-        
-        // Background fiber to consume from 'ready' topic
-        private val consumeEffect: Task[Unit] =
+    ZLayer.scoped {
+      for
+        consumer <- ZIO.service[Consumer]
+        orders   <- Ref.make(Map.empty[String, CoffeeOrder])
+        consumeEffect =
           consumer
             .plainStream(Subscription.topics("ready"), Serde.string, Serde.string)
             .mapZIO { record =>
-              ZIO.attempt {
-                record.value.fromJson[CoffeeOrder] match
-                  case Right(order) => 
-                    println(s"[CoffeeBar] Received ready order: ${order.orderId} for ${order.name}")
-                    orders.put(order.orderId, order)
-                  case Left(error) => 
-                    println(s"[CoffeeBar] Failed to parse order: $error")
-              }
+              record.value.fromJson[CoffeeOrder] match
+                case Right(order) =>
+                  ZIO.logInfo(s"[CoffeeBar] Received ready order: ${order.orderId} for ${order.name}") *>
+                    orders.update(_ + (order.orderId -> order))
+                case Left(error) =>
+                  ZIO.logWarning(s"[CoffeeBar] Failed to parse order: $error")
             }
             .runDrain
-
-        Unsafe.unsafe { implicit u =>
-          Runtime.default.unsafe.fork(consumeEffect)
-        }
-
+        _ <- consumeEffect.forkScoped
+      yield new PreparedConsumer:
         def getOrder(orderId: String): Task[Option[CoffeeOrder]] =
-          ZIO.succeed {
-            val result = orders.remove(orderId)
-            println(s"[CoffeeBar] Pickup request for $orderId: ${if (result.isDefined) "Found" else "Not found"}")
-            result
-          }
-        
+          for
+            result <- orders.modify(m => (m.get(orderId), m - orderId))
+            _ <- ZIO.logInfo(s"[CoffeeBar] Pickup request for $orderId: ${if (result.isDefined) "Found" else "Not found"}")
+          yield result
+
         def isReady(orderId: String): Task[Boolean] =
-          ZIO.succeed {
-            val ready = orders.contains(orderId)
-            println(s"[CoffeeBar] Ready check for $orderId: ${if (ready) "Ready" else "Not ready"}")
-            ready
-          }
+          for
+            ready <- orders.get.map(_.contains(orderId))
+            _ <- ZIO.logInfo(s"[CoffeeBar] Ready check for $orderId: ${if (ready) "Ready" else "Not ready"}")
+          yield ready
     }
