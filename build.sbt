@@ -7,7 +7,7 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "dev.zio" %% "zio" % "2.1.23",
     "dev.zio" %% "zio-streams" % "2.1.23",
-    "dev.zio" %% "zio-kafka" % "3.2.0",
+    "dev.zio" %% "zio-kafka" % "3.6.0",
     "dev.zio" %% "zio-json" % "0.7.44",
     "dev.zio" %% "zio-logging" % "2.1.16",
     "dev.zio" %% "zio-logging-slf4j2" % "2.1.16",
@@ -17,7 +17,7 @@ lazy val commonSettings = Seq(
     "dev.zio" %% "zio-test" % "2.1.23" % Test,
     "dev.zio" %% "zio-test-sbt" % "2.1.23" % Test,
     "dev.zio" %% "zio-test-magnolia" % "2.1.23" % Test,
-    "dev.zio" %% "zio-kafka-testkit" % "3.2.0" % Test
+    "dev.zio" %% "zio-kafka-testkit" % "3.6.0" % Test
   ),
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 )
@@ -47,8 +47,7 @@ lazy val barista = (project in file("barista"))
     commonSettings
   )
 
-lazy val root = rootProject
-  .autoAggregate
+lazy val root = rootProject.autoAggregate
   .settings(
     name := "zio-kafka-coffeebar-example"
   )
