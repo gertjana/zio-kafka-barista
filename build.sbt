@@ -1,5 +1,5 @@
 version := "0.1.0-SNAPSHOT"
-scalaVersion := "3.3.7"
+scalaVersion := "3.3.8"
 organization := "dev.gertjanassies"
 dependencyOverrides += "org.lz4" % "lz4-java" % "1.8.1"
 
