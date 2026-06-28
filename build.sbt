@@ -8,7 +8,7 @@ lazy val commonSettings = Seq(
     "dev.zio" %% "zio" % "2.1.23",
     "dev.zio" %% "zio-streams" % "2.1.23",
     "dev.zio" %% "zio-kafka" % "3.2.0",
-    "dev.zio" %% "zio-json" % "0.7.44",
+    "dev.zio" %% "zio-json" % "0.7.45",
     "dev.zio" %% "zio-logging" % "2.1.16",
     "dev.zio" %% "zio-logging-slf4j2" % "2.1.16",
     "org.apache.logging.log4j" % "log4j-core" % "2.22.0",
@@ -47,8 +47,7 @@ lazy val barista = (project in file("barista"))
     commonSettings
   )
 
-lazy val root = rootProject
-  .autoAggregate
+lazy val root = rootProject.autoAggregate
   .settings(
     name := "zio-kafka-coffeebar-example"
   )
