@@ -3,9 +3,9 @@ package dev.gertjanassies.common
 import zio.json.*
 
 case class CoffeeOrder(
-  name: String,
-  coffeeType: String,
-  orderId: String
+    name: String,
+    coffeeType: String,
+    orderId: String
 )
 
 object CoffeeOrder:

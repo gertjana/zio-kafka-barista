@@ -5,8 +5,9 @@ import zio.kafka.producer.*
 import zio.kafka.consumer.*
 
 object KafkaConfig:
-  private val bootstrapServers = sys.env.getOrElse("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
-  
+  private val bootstrapServers =
+    sys.env.getOrElse("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+
   val producerLayer: ZLayer[Any, Throwable, Producer] =
     ZLayer.scoped(
       Producer.make(
