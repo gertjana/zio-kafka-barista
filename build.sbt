@@ -47,8 +47,7 @@ lazy val barista = (project in file("barista"))
     commonSettings
   )
 
-lazy val root = rootProject
-  .autoAggregate
+lazy val root = rootProject.autoAggregate
   .settings(
     name := "zio-kafka-coffeebar-example"
   )

@@ -5,8 +5,9 @@ import zio.kafka.producer.*
 import zio.kafka.consumer.*
 
 object KafkaConfig:
-  private val bootstrapServers = sys.env.getOrElse("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
-  
+  private val bootstrapServers =
+    sys.env.getOrElse("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+
   val producerLayer: ZLayer[Any, Throwable, Producer] =
     ZLayer.scoped(
       Producer.make(
@@ -19,7 +20,9 @@ object KafkaConfig:
       Consumer.make(
         ConsumerSettings(List(bootstrapServers))
           .withGroupId("barista-workers")
-          .withGroupInstanceId(s"barista-${sys.env.getOrElse("BARISTA_ID", "local")}")
+          .withGroupInstanceId(
+            s"barista-${sys.env.getOrElse("BARISTA_ID", "local")}"
+          )
           .withProperties(Map("auto.offset.reset" -> "latest"))
       )
     )

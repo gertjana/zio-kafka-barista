@@ -7,47 +7,54 @@ import zio.json.*
 import zio.logging.backend.SLF4J
 
 object CoffeeBarApp extends ZIOAppDefault:
-  
+
   val orderRoute = Routes(
     Method.POST / "order" -> handler { (req: Request) =>
       (for
         body <- req.body.asString
-        orderRequest <- ZIO.fromEither(body.fromJson[OrderRequest])
+        orderRequest <- ZIO
+          .fromEither(body.fromJson[OrderRequest])
           .mapError(err => Response.badRequest(err))
-          orderId <- Random.nextUUID.map(_.toString)
+        orderId <- Random.nextUUID.map(_.toString)
         order = CoffeeOrder(orderRequest.name, orderRequest.coffeeType, orderId)
         _ <- OrderProducer.publishOrder(order)
         responseBody = s"{\"orderId\":\"$orderId\",\"status\":\"Order placed\"}"
       yield Response
         .status(Status.Accepted)
         .addHeader(Header.Location(URL.decode(s"/check/$orderId").toOption.get))
-        .copy(body = Body.fromString(responseBody))
-      ).mapError(_ => Response.internalServerError)
+        .copy(body = Body.fromString(responseBody))).mapError(_ =>
+        Response.internalServerError
+      )
     },
-    
-    Method.GET / "check" / string("orderId") -> handler { (orderId: String, _: Request) =>
-      (for
-        ready <- PreparedConsumer.isReady(orderId)
-        response <- if ready then
-          ZIO.succeed(
-            Response
-              .seeOther(URL.decode(s"/pickup/$orderId").toOption.get)
-              .addHeader(Header.Location(URL.decode(s"/pickup/$orderId").toOption.get))
-          )
-        else
-          ZIO.succeed(Response.ok)
-      yield response).mapError(_ => Response.internalServerError)
+
+    Method.GET / "check" / string("orderId") -> handler {
+      (orderId: String, _: Request) =>
+        (for
+          ready <- PreparedConsumer.isReady(orderId)
+          response <-
+            if ready then
+              ZIO.succeed(
+                Response
+                  .seeOther(URL.decode(s"/pickup/$orderId").toOption.get)
+                  .addHeader(
+                    Header
+                      .Location(URL.decode(s"/pickup/$orderId").toOption.get)
+                  )
+              )
+            else ZIO.succeed(Response.ok)
+        yield response).mapError(_ => Response.internalServerError)
     },
-    
-    Method.GET / "pickup" / string("orderId") -> handler { (orderId: String, _: Request) =>
-      (for
-        maybeOrder <- PreparedConsumer.getOrder(orderId)
-        response <- maybeOrder match
-          case Some(order) => 
-            ZIO.succeed(Response.json(order.toJson))
-          case None => 
-            ZIO.succeed(Response.status(Status.NotFound))
-      yield response).mapError(_ => Response.internalServerError)
+
+    Method.GET / "pickup" / string("orderId") -> handler {
+      (orderId: String, _: Request) =>
+        (for
+          maybeOrder <- PreparedConsumer.getOrder(orderId)
+          response <- maybeOrder match
+            case Some(order) =>
+              ZIO.succeed(Response.json(order.toJson))
+            case None =>
+              ZIO.succeed(Response.status(Status.NotFound))
+        yield response).mapError(_ => Response.internalServerError)
     }
   )
 
