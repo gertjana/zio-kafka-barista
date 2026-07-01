@@ -12,7 +12,7 @@ COPY coffeebar coffeebar
 RUN sbt coffeeBar/stage && \
     mv $(find target/out -type d -name stage -path '*/coffeebar/universal/stage') /app/stage
 
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:21.0.11_10-jre-jammy
 
 WORKDIR /app
 
