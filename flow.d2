@@ -19,6 +19,7 @@ Coffee Bar {
     icon: https://icons.terrastruct.com/essentials%2F359-users.svg
   }
 
+  Customer -> API.coffee: browse menu
   Customer -> API.order: place order
   Customer <->  API.check: check order status
   Customer <- API.pickup: pick up order
@@ -27,18 +28,36 @@ Coffee Bar {
   API.class: box
   API {
     grid-rows: 1
+    coffee.box: |md
+      GET /coffee
+      GET /coffee/:name
+
+      response (list):
+      ```
+      200 OK — Coffee[]
+      ```
+      response (single):
+      ```
+      200 OK — Coffee
+      404 Not Found
+      ```
+    |
     order.box:|md
       POST /order  
       ```
       {
         "name": "Alice",
-        "coffeeType": "Latte"
+        "coffeeType": "latte"
       }
       ```
       response:
       ```
       202 Accepted
       Location: /check/:orderId
+      ```
+      ```
+      400 Bad Request
+      (unknown coffeeType)
       ```
     |
     check.box: |md
@@ -62,7 +81,8 @@ Coffee Bar {
       ```json
       {
         "name": "Alize",
-        "coffee": "Latte"
+        "coffeeType": "latte",
+        "orderId": "..."
       }
       ```
       ```
@@ -77,6 +97,18 @@ Coffee Bar {
       * ZIO Http
       * ZIO Kafka
       * ZIO Json
+    |
+  }
+
+  Common.class: box
+  Common {
+    label: Common
+    grid-rows: 1
+    menu.box: |md
+      CoffeeMenu
+
+      coffees.json
+      (resources)
     |
   }
 
@@ -111,8 +143,11 @@ Coffee Bar {
   Kafka.taken -> Barista.preparesOrder -> Kafka.prepared
   Kafka.prepared -> Barista.announcesReady -> Kafka.ready
 
+  API.coffee -> Common.menu: reads
+  API.order -> Common.menu: validates
   API.order -> Kafka.order
   API.check <- Kafka.ready
   API.pickup <- Kafka.ready
 
 }
+

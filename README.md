@@ -20,8 +20,17 @@ This system simulates a coffee shop workflow with multiple stages:
 **Ports:** HTTP `:8080`
 
 HTTP service for placing and picking up orders:
+- **GET /coffee** - List all available coffees
+  - Returns: `200 OK` with a JSON array of coffee objects
+
+- **GET /coffee/:name** - Get details for a specific coffee
+  - Returns: `200 OK` with a single coffee object, or `404 Not Found`
+  - Example names: `espresso`, `latte`, `cappuccino`, `flat-white`, `cold-brew`, `oat-latte`, `americano`, `decaf-americano`
+  - Each coffee includes: `name`, `displayName`, `description`, `volumeMl`, `calories`, `vegan`, `glutenFree`, `dairyFree`, `caffeinated`
+
 - **POST /order** - Place a coffee order
-  - Body: `{"name": "John", "coffeeType": "Cappuccino"}`
+  - Body: `{"name": "John", "coffeeType": "cappuccino"}`
+  - `coffeeType` must match a name from `GET /coffee`; unknown types return `400 Bad Request`
   - Returns: `202 Accepted` with `Location: /check/:orderId` header
   - Body: `{"orderId": "uuid", "status": "Order placed"}`
   
@@ -45,18 +54,18 @@ Multi-stage coffee preparation pipeline:
 
 ## Technology Stack
 
-- **Scala 3.3.6**
+- **Scala 3.8.4**
 - **ZIO** - Effect system and streams
   - **ZIO HTTP**
   - **ZIO Kafka**
   - **ZIO JSON**
   - **ZIO Logging**
-- **Kafka (Confluent 7.5.0)** - Message broker in KRaft mode
+- **Kafka (Confluent 8.3.0)** - Message broker in KRaft mode
 
 ## Prerequisites
 
 - **Docker** and **Docker Compose** (for containerized deployment)
-- OR **Scala 3.3.6**, **sbt 1.9.8**, and **Kafka** (for local development)
+- OR **Scala 3.8.4**, **sbt 2.0.1**, and **Kafka** (for local development)
 
 ## Running the Services
 
@@ -88,12 +97,34 @@ BARISTA_ID=n sbt "barista/run"
 
 ## Usage Examples
 
+### Browse the Menu
+
+```bash
+# List all coffees
+curl http://localhost:8080/coffee
+
+# Get details for a specific coffee
+curl http://localhost:8080/coffee/latte
+# Response:
+# {
+#   "name": "latte",
+#   "displayName": "Latte",
+#   "description": "Espresso with steamed milk and a thin layer of microfoam on top.",
+#   "volumeMl": 360,
+#   "calories": 190,
+#   "vegan": false,
+#   "glutenFree": true,
+#   "dairyFree": false,
+#   "caffeinated": true
+# }
+```
+
 ### Place an Order
 
 ```bash
 curl -i -X POST http://localhost:8080/order \
   -H "Content-Type: application/json" \
-  -d '{"name":"Alice","coffeeType":"Latte"}'
+  -d '{"name":"Alice","coffeeType":"latte"}'
 
 # Response:
 # HTTP/1.1 202 Accepted
