@@ -12,7 +12,7 @@ lazy val commonSettings = Seq(
     "dev.zio" %% "zio-logging" % "2.5.3",
     "dev.zio" %% "zio-logging-slf4j2" % "2.5.3",
     "org.apache.logging.log4j" % "log4j-core" % "2.26.1",
-    "org.apache.logging.log4j" % "log4j-api" % "2.26.0",
+    "org.apache.logging.log4j" % "log4j-api" % "2.26.1",
     "org.apache.logging.log4j" % "log4j-slf4j2-impl" % "2.26.0",
     "dev.zio" %% "zio-test" % "2.1.26" % Test,
     "dev.zio" %% "zio-test-sbt" % "2.1.26" % Test,
