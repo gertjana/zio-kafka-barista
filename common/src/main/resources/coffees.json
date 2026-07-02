@@ -1,0 +1,90 @@
+[
+  {
+    "name": "espresso",
+    "displayName": "Espresso",
+    "description": "A concentrated shot of coffee brewed by forcing hot water through finely-ground coffee beans.",
+    "volumeMl": 30,
+    "calories": 5,
+    "vegan": true,
+    "glutenFree": true,
+    "dairyFree": true,
+    "caffeinated": true
+  },
+  {
+    "name": "americano",
+    "displayName": "Americano",
+    "description": "Espresso diluted with hot water for a milder flavour with full coffee character.",
+    "volumeMl": 240,
+    "calories": 10,
+    "vegan": true,
+    "glutenFree": true,
+    "dairyFree": true,
+    "caffeinated": true
+  },
+  {
+    "name": "latte",
+    "displayName": "Latte",
+    "description": "Espresso with steamed milk and a thin layer of microfoam on top.",
+    "volumeMl": 360,
+    "calories": 190,
+    "vegan": false,
+    "glutenFree": true,
+    "dairyFree": false,
+    "caffeinated": true
+  },
+  {
+    "name": "cappuccino",
+    "displayName": "Cappuccino",
+    "description": "Equal parts espresso, steamed milk and thick milk foam for a bold and creamy drink.",
+    "volumeMl": 180,
+    "calories": 120,
+    "vegan": false,
+    "glutenFree": true,
+    "dairyFree": false,
+    "caffeinated": true
+  },
+  {
+    "name": "flat-white",
+    "displayName": "Flat White",
+    "description": "A ristretto-based espresso with velvety steamed milk, less foam than a latte.",
+    "volumeMl": 180,
+    "calories": 150,
+    "vegan": false,
+    "glutenFree": true,
+    "dairyFree": false,
+    "caffeinated": true
+  },
+  {
+    "name": "cold-brew",
+    "displayName": "Cold Brew",
+    "description": "Coffee steeped in cold water for 12–24 hours, resulting in a smooth and refreshing concentrate.",
+    "volumeMl": 350,
+    "calories": 15,
+    "vegan": true,
+    "glutenFree": true,
+    "dairyFree": true,
+    "caffeinated": true
+  },
+  {
+    "name": "oat-latte",
+    "displayName": "Oat Milk Latte",
+    "description": "Espresso with creamy steamed oat milk — the fully plant-based latte alternative.",
+    "volumeMl": 360,
+    "calories": 150,
+    "vegan": true,
+    "glutenFree": false,
+    "dairyFree": true,
+    "caffeinated": true
+  },
+  {
+    "name": "decaf-americano",
+    "displayName": "Decaf Americano",
+    "description": "All the flavour of an Americano, brewed from decaffeinated beans.",
+    "volumeMl": 240,
+    "calories": 10,
+    "vegan": true,
+    "glutenFree": true,
+    "dairyFree": true,
+    "caffeinated": false
+  }
+]
