@@ -3,5 +3,14 @@
   "extends": [
     "config:recommended"
   ],
-  "automerge": true
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    }
+  ]
 }
