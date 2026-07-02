@@ -6,12 +6,13 @@ This is an example project for playing around with ZIO-Kafka.
 
 This system simulates a coffee shop workflow with multiple stages:
 
-1. Customer looks at the coffee menu 
+1. **Customer looks at the coffee menu** /coffee API 
 2. **Customer places order** /order API → `order` topic
 3. **One of the Baristas takes order and writes name** → `taken` topic 
 4. **One of the Baristas prepares coffee** → `prepared` topic 
 5. **One of the Baristas announces order ready** → `ready` topic
-6. Meanwhile **Customer checks periodically if the order is ready and then picks up order** API /check /pickup
+6. Meanwhile **Customer checks periodically if the order is ready** /check API 
+7. When ready **Customer picks up order** /pickup API
 
 ![Architecture](./flow.svg)
 
