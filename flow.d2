@@ -13,7 +13,7 @@ classes: {
   }
 }
 
-Coffee Bar {
+Coffee Bar: {
   label.near: top-left
   Customer: {
     icon: https://icons.terrastruct.com/essentials%2F359-users.svg
@@ -21,13 +21,13 @@ Coffee Bar {
 
   Customer -> API.coffee: browse menu
   Customer -> API.order: place order
-  Customer <->  API.check: check order status
+  Customer <-> API.check: check order status
   Customer <- API.pickup: pick up order
 
-
   API.class: box
-  API {
+  API: {
     grid-rows: 1
+    coffee.label: ""
     coffee.box: |md
       GET /coffee
       GET /coffee/:name
@@ -42,7 +42,8 @@ Coffee Bar {
       404 Not Found
       ```
     |
-    order.box:|md
+    order.label: ""
+    order.box: |md
       POST /order  
       ```
       {
@@ -55,11 +56,12 @@ Coffee Bar {
       202 Accepted
       Location: /check/:orderId
       ```
-      ```
+      ```a
       400 Bad Request
       (unknown coffeeType)
       ```
     |
+    check.label: ""
     check.box: |md
       GET /check/:orderId
 
@@ -73,7 +75,7 @@ Coffee Bar {
       Location: /pickup/:orderId
       ```
     |
-
+    pickup.label: ""
     pickup.box: |md
       GET /pickup/:orderId
 
@@ -89,31 +91,9 @@ Coffee Bar {
       200 OK
       ```
     |
-    Technology {
-      icon: https://icons.terrastruct.com/dev%2Fscala.svg
-      label: ""
-    }
-    Technology.box:|md
-      * ZIO Http
-      * ZIO Kafka
-      * ZIO Json
-    |
   }
-
-  Common.class: box
-  Common {
-    label: Common
-    grid-rows: 1
-    menu.box: |md
-      CoffeeMenu
-
-      coffees.json
-      (resources)
-    |
-  }
-
   Kafka.class: box
-  Kafka{
+  Kafka: {
     label: Kafka Topics
     grid-rows: 1
     order.class: topic
@@ -123,31 +103,19 @@ Coffee Bar {
   }
 
   Barista.class: box
-  Barista {
+  Barista: {
     label: Barista Pool
     grid-rows: 1
     takesOrder: Barista takes order
     preparesOrder: Barista prepares order
     announcesReady: Barista announces prepared order
-    Technology {
-      icon: https://icons.terrastruct.com/dev%2Fscala.svg
-      label: ""
-    }
-    Technology.box:|md
-      * ZIO Kafka
-      * ZIO Json
-    |
   }
 
   Kafka.order -> Barista.takesOrder -> Kafka.taken
   Kafka.taken -> Barista.preparesOrder -> Kafka.prepared
   Kafka.prepared -> Barista.announcesReady -> Kafka.ready
 
-  API.coffee -> Common.menu: reads
-  API.order -> Common.menu: validates
   API.order -> Kafka.order
   API.check <- Kafka.ready
   API.pickup <- Kafka.ready
-
 }
-
