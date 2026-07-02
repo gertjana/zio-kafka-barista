@@ -1,6 +1,6 @@
 package dev.gertjanassies.coffeebar
 
-import dev.gertjanassies.common.CoffeeOrder
+import dev.gertjanassies.common.{CoffeeMenu, CoffeeOrder}
 import zio.*
 import zio.test.*
 import zio.test.Assertion.*
@@ -23,7 +23,7 @@ object OrderEndpointSpec extends ZIOSpecDefault:
             .post(
               URL.decode("/order").toOption.get,
               Body.fromString(
-                """{"name":"TestUser","coffeeType":"TestLatte"}"""
+                """{"name":"TestUser","coffeeType":"latte"}"""
               )
             )
             .addHeader(Header.ContentType(MediaType.application.json))
@@ -49,7 +49,7 @@ object OrderEndpointSpec extends ZIOSpecDefault:
         order <- ZIO.fromEither(record.value.fromJson[CoffeeOrder])
       yield assertTrue(
         order.name == "TestUser",
-        order.coffeeType == "TestLatte",
+        order.coffeeType == "latte",
         order.orderId.nonEmpty,
         locationHeader == Some(
           Header.Location(URL.decode(s"/check/${order.orderId}").toOption.get)
@@ -161,7 +161,7 @@ object OrderEndpointSpec extends ZIOSpecDefault:
           Request
             .post(
               URL.decode("/order").toOption.get,
-              Body.fromString("""{"name":"Carol","coffeeType":"Latte"}""")
+              Body.fromString("""{"name":"Carol","coffeeType":"latte"}""")
             )
             .addHeader(Header.ContentType(MediaType.application.json))
         )
@@ -175,7 +175,7 @@ object OrderEndpointSpec extends ZIOSpecDefault:
         )
         checkResponse1 <- CoffeeBarApp.orderRoute.runZIO(checkRequest1)
 
-        completedOrder = CoffeeOrder("Carol", "Latte", orderId)
+        completedOrder = CoffeeOrder("Carol", "latte", orderId)
         producer <- ZIO.service[Producer]
         _ <- producer.produce(
           new org.apache.kafka.clients.producer.ProducerRecord(
@@ -213,5 +213,6 @@ object OrderEndpointSpec extends ZIOSpecDefault:
       groupId = Some("coffeebar-test-group")
     ),
     OrderProducer.live,
-    PreparedConsumer.live
+    PreparedConsumer.live,
+    CoffeeMenu.live
   ) @@ withLiveClock @@ timeout(2.minutes) @@ sequential
