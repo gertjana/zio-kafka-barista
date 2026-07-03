@@ -112,7 +112,7 @@ object BaristaApp extends ZIOAppDefault:
         .runDrain
     )
 
-  // Process prepared orders - announce they're ready
+  // Process prepared orders - announce they're ready.
   val processPrepared: ZIO[Consumer & Producer, Throwable, Unit] =
     ZIO.serviceWithZIO[Consumer](
       _.plainStream(
