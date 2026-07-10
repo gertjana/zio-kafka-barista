@@ -17,7 +17,7 @@ lazy val commonSettings = Seq(
     "dev.zio" %% "zio-test" % "2.1.26" % Test,
     "dev.zio" %% "zio-test-sbt" % "2.1.26" % Test,
     "dev.zio" %% "zio-test-magnolia" % "2.1.26" % Test,
-    "dev.zio" %% "zio-kafka-testkit" % "3.6.0" % Test
+    "dev.zio" %% "zio-kafka-testkit" % "3.7.0" % Test
   ),
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 )
