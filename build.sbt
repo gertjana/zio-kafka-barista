@@ -35,7 +35,7 @@ lazy val coffeeBar = (project in file("coffeebar"))
     name := "coffeebar",
     commonSettings,
     libraryDependencies ++= Seq(
-      "dev.zio" %% "zio-http" % "3.11.3"
+      "dev.zio" %% "zio-http" % "3.11.5"
     )
   )
 
