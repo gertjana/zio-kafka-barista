@@ -6,7 +6,7 @@ dependencyOverrides += "org.lz4" % "lz4-java" % "1.8.1"
 lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "dev.zio" %% "zio" % "2.1.27",
-    "dev.zio" %% "zio-streams" % "2.1.26",
+    "dev.zio" %% "zio-streams" % "2.1.27",
     "dev.zio" %% "zio-kafka" % "3.7.1",
     "dev.zio" %% "zio-json" % "0.9.2",
     "dev.zio" %% "zio-logging" % "2.5.3",
