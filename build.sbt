@@ -5,8 +5,8 @@ dependencyOverrides += "org.lz4" % "lz4-java" % "1.8.1"
 
 lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
-    "dev.zio" %% "zio" % "2.1.26",
-    "dev.zio" %% "zio-streams" % "2.1.26",
+    "dev.zio" %% "zio" % "2.1.27",
+    "dev.zio" %% "zio-streams" % "2.1.27",
     "dev.zio" %% "zio-kafka" % "3.7.1",
     "dev.zio" %% "zio-json" % "0.9.2",
     "dev.zio" %% "zio-logging" % "2.5.3",
@@ -14,9 +14,9 @@ lazy val commonSettings = Seq(
     "org.apache.logging.log4j" % "log4j-core" % "2.26.1",
     "org.apache.logging.log4j" % "log4j-api" % "2.26.1",
     "org.apache.logging.log4j" % "log4j-slf4j2-impl" % "2.26.1",
-    "dev.zio" %% "zio-test" % "2.1.26" % Test,
-    "dev.zio" %% "zio-test-sbt" % "2.1.26" % Test,
-    "dev.zio" %% "zio-test-magnolia" % "2.1.26" % Test,
+    "dev.zio" %% "zio-test" % "2.1.27" % Test,
+    "dev.zio" %% "zio-test-sbt" % "2.1.27" % Test,
+    "dev.zio" %% "zio-test-magnolia" % "2.1.27" % Test,
     "dev.zio" %% "zio-kafka-testkit" % "3.7.1" % Test
   ),
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
