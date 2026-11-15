@@ -7,7 +7,7 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "dev.zio" %% "zio" % "2.1.27",
     "dev.zio" %% "zio-streams" % "2.1.27",
-    "dev.zio" %% "zio-kafka" % "3.8.2",
+    "dev.zio" %% "zio-kafka" % "4.0.0",
     "dev.zio" %% "zio-json" % "0.9.2",
     "dev.zio" %% "zio-logging" % "2.5.4",
     "dev.zio" %% "zio-logging-slf4j2" % "2.5.4",
@@ -17,7 +17,7 @@ lazy val commonSettings = Seq(
     "dev.zio" %% "zio-test" % "2.1.27" % Test,
     "dev.zio" %% "zio-test-sbt" % "2.1.27" % Test,
     "dev.zio" %% "zio-test-magnolia" % "2.1.27" % Test,
-    "dev.zio" %% "zio-kafka-testkit" % "3.8.2" % Test
+    "dev.zio" %% "zio-kafka-testkit" % "4.0.0" % Test
   ),
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 )
